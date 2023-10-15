@@ -3,22 +3,30 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Assignment_V2.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Assignment_V2.Controllers
 {
     public class BookingsController : Controller
     {
         private Entities db = new Entities();
+        private String userId;
 
-        // GET: Bookings
+        [Authorize]
         public ActionResult Index()
         {
-            var bookingSet = db.BookingSet.Include(b => b.AspNetUsers);
-            return View(bookingSet.ToList());
+            userId = User.Identity.GetUserId();
+            var bookings = db.BookingSet.Where(s => s.AspNetUsersId == userId).ToList();
+            if (User.IsInRole("admin"))
+            {
+                bookings = db.BookingSet.ToList();
+            }
+            return View(bookings);
         }
 
         // GET: Bookings/Details/5
@@ -29,7 +37,12 @@ namespace Assignment_V2.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Booking booking = db.BookingSet.Find(id);
+            userId = User.Identity.GetUserId();
             if (booking == null)
+            {
+                return HttpNotFound();
+            }
+            if (!User.IsInRole("admin") && userId != booking.AspNetUsersId)
             {
                 return HttpNotFound();
             }
@@ -46,17 +59,27 @@ namespace Assignment_V2.Controllers
         // POST: Bookings/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "BookingId,Description,BookingDate,AspNetUsersId")] Booking booking)
         {
             if (ModelState.IsValid)
             {
-                db.BookingSet.Add(booking);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.BookingSet.Add(booking);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    // Handle any specific database or other exceptions here.
+                    ModelState.AddModelError("", "An error occurred while saving the booking.");
+                }
             }
 
+            // If ModelState is not valid, show the form again with validation errors.
             ViewBag.AspNetUsersId = new SelectList(db.AspNetUsers, "Id", "Email", booking.AspNetUsersId);
             return View(booking);
         }
