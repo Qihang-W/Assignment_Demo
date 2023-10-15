@@ -8,6 +8,8 @@
         <EntityTypeShape EntityType="Model.AspNetUsers" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.Booking" Width="1.5" PointX="5.75" PointY="1" />
         <AssociationConnector Association="Model.AspNetUsersBooking" />
+        <AssociationConnector Association="Model.FK_PatientBooking" />
+        <EntityTypeShape EntityType="Model.Images" Width="1.5" PointX="3.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

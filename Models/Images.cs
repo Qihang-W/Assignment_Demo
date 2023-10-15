@@ -11,21 +11,11 @@ namespace Assignment_V2.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-
-    public partial class Booking
-    {
-        public int BookingId { get; set; }
-        public string Description { get; set; }
-
-        [DataType(DataType.Date)]
-        public string BookingDate { get; set; }
-        public string AspNetUsersId { get; set; }
-
-        public string PatientID { get; set; }
     
-        public virtual AspNetUsers AspNetUsers { get; set; }
-        public virtual AspNetUsers AspNetUsers1 { get; set; }
+    public partial class Images
+    {
+        public int Id { get; set; }
+        public string Path { get; set; }
+        public string Name { get; set; }
     }
 }

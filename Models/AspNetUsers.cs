@@ -18,6 +18,7 @@ namespace Assignment_V2.Models
         public AspNetUsers()
         {
             this.Booking = new HashSet<Booking>();
+            this.BookingSet1 = new HashSet<Booking>();
         }
     
         public string Id { get; set; }
@@ -35,5 +36,7 @@ namespace Assignment_V2.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Booking> Booking { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Booking> BookingSet1 { get; set; }
     }
 }

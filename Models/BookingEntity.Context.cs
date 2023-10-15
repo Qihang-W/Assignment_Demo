@@ -27,5 +27,6 @@ namespace Assignment_V2.Models
     
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<Booking> BookingSet { get; set; }
+        public virtual DbSet<Images> Images { get; set; }
     }
 }

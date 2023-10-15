@@ -21,7 +21,7 @@ namespace Assignment_V2.Controllers
         public ActionResult Index()
         {
             userId = User.Identity.GetUserId();
-            var bookings = db.BookingSet.Where(s => s.AspNetUsersId == userId).ToList();
+            var bookings = db.BookingSet.Where(s => s.PatientID == userId).ToList();
             if (User.IsInRole("admin"))
             {
                 bookings = db.BookingSet.ToList();
@@ -64,6 +64,7 @@ namespace Assignment_V2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "BookingId,Description,BookingDate,AspNetUsersId")] Booking booking)
         {
+            booking.PatientID = User.Identity.GetUserId();
             if (ModelState.IsValid)
             {
                 try

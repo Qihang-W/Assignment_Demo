@@ -28,7 +28,7 @@ namespace Assignment_V2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Image image = db.Images.Find(id);
+            Images image = db.Images.Find(id);
             if (image == null)
             {
                 return HttpNotFound();
@@ -47,7 +47,7 @@ namespace Assignment_V2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name")] Image image, HttpPostedFileBase
+        public ActionResult Create([Bind(Include = "Id,Name")] Images image, HttpPostedFileBase
         postedFile)
         {
             ModelState.Clear();
@@ -75,7 +75,7 @@ namespace Assignment_V2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Image image = db.Images.Find(id);
+            Images image = db.Images.Find(id);
             if (image == null)
             {
                 return HttpNotFound();
@@ -106,7 +106,7 @@ namespace Assignment_V2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Image image = db.Images.Find(id);
+            Images image = db.Images.Find(id);
             if (image == null)
             {
                 return HttpNotFound();
@@ -119,7 +119,7 @@ namespace Assignment_V2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Image image = db.Images.Find(id);
+            Images image = db.Images.Find(id);
             db.Images.Remove(image);
             db.SaveChanges();
             return RedirectToAction("Index");
