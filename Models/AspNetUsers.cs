@@ -19,6 +19,7 @@ namespace Assignment_V2.Models
         {
             this.Booking = new HashSet<Booking>();
             this.BookingSet1 = new HashSet<Booking>();
+            this.AspNetUserRoles = new HashSet<AspNetUserRoles>();
         }
     
         public string Id { get; set; }
@@ -38,5 +39,7 @@ namespace Assignment_V2.Models
         public virtual ICollection<Booking> Booking { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Booking> BookingSet1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
     }
 }

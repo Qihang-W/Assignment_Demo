@@ -52,7 +52,18 @@ namespace Assignment_V2.Controllers
         // GET: Bookings/Create
         public ActionResult Create()
         {
-            ViewBag.AspNetUsersId = new SelectList(db.AspNetUsers, "Id", "Email");
+            var list = from c in db.AspNetUserRoles
+                        join o in db.AspNetUsers
+                        on c.UserId equals o.Id
+            select new
+            {
+                UserId = c.UserId,
+                Email = o.Email,
+                RoleId = c.RoleId
+            };
+
+            //ViewBag.AspNetUsersId = new SelectList(db.AspNetUserRoles.Where(s => s.RoleId == "2").ToList(), "UserId", "UserId");
+            ViewBag.AspNetUsersId = new SelectList(list.Where(s => s.RoleId == "2").ToList(), "UserId", "Email");
             return View();
         }
 
@@ -64,24 +75,52 @@ namespace Assignment_V2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "BookingId,Description,BookingDate,AspNetUsersId")] Booking booking)
         {
-            booking.PatientID = User.Identity.GetUserId();
-            if (ModelState.IsValid)
-            {
-                try
+            //booking.PatientID = User.Identity.GetUserId();
+            //if (ModelState.IsValid)
+            //{
+            //    try
+            //    {
+            //        db.BookingSet.Add(booking);
+            //        db.SaveChanges();
+            //        return RedirectToAction("Index");
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        // Handle any specific database or other exceptions here.
+            //        ModelState.AddModelError("", "An error occurred while saving the booking.");
+            //    }
+            //}
+                booking.PatientID = User.Identity.GetUserId();
+                if (ModelState.IsValid)
                 {
-                    db.BookingSet.Add(booking);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
-                catch (Exception ex)
-                {
-                    // Handle any specific database or other exceptions here.
-                    ModelState.AddModelError("", "An error occurred while saving the booking.");
-                }
-            }
+                    if (string.IsNullOrWhiteSpace(booking.Description))
+                    {
+                        ModelState.AddModelError("Description", "Description is required.");
+                    }
 
-            // If ModelState is not valid, show the form again with validation errors.
-            ViewBag.AspNetUsersId = new SelectList(db.AspNetUsers, "Id", "Email", booking.AspNetUsersId);
+                    if (booking.BookingDate == null)
+                    {
+                        ModelState.AddModelError("BookingDate", "Booking date is required.");
+                    }
+
+                    if (ModelState.IsValid) // Check ModelState after adding custom errors
+                    {
+                        try
+                        {
+                            db.BookingSet.Add(booking);
+                            db.SaveChanges();
+                            return RedirectToAction("Index");
+                        }
+                        catch (Exception ex)
+                        {
+                            // Handle any specific database or other exceptions here.
+                            ModelState.AddModelError("", "An error occurred while saving the booking.");
+                        }
+                    }
+                }
+
+                // If ModelState is not valid, show the form again with validation errors.
+                ViewBag.AspNetUsersId = new SelectList(db.AspNetUsers, "Id", "Email", booking.AspNetUsersId);
             return View(booking);
         }
 

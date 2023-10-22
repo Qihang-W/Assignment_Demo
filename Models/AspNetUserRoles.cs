@@ -12,15 +12,11 @@ namespace Assignment_V2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Booking
+    public partial class AspNetUserRoles
     {
-        public int BookingId { get; set; }
-        public string Description { get; set; }
-        public string BookingDate { get; set; }
-        public string AspNetUsersId { get; set; }
-        public string PatientID { get; set; }
+        public string UserId { get; set; }
+        public string RoleId { get; set; }
     
         public virtual AspNetUsers AspNetUsers { get; set; }
-        public virtual AspNetUsers AspNetUsers1 { get; set; }
     }
 }

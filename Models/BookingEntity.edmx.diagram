@@ -10,6 +10,8 @@
         <AssociationConnector Association="Model.AspNetUsersBooking" />
         <AssociationConnector Association="Model.FK_PatientBooking" />
         <EntityTypeShape EntityType="Model.Images" Width="1.5" PointX="3.375" PointY="4.75" />
+        <EntityTypeShape EntityType="Model.AspNetUserRoles" Width="1.5" PointX="3.375" PointY="2" />
+        <AssociationConnector Association="Model.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
